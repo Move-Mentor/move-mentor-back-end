@@ -13,6 +13,9 @@ const ClassSchema = mongoose.Schema({
       type: String,
       required: true,
     },
+    students: [{type: mongoose.Types.ObjectId, ref: 'Student'}],
+    teachers: [{type: mongoose.Types.ObjectId, ref: 'Teacher'}],
+    moves: [{type: mongoose.Types.ObjectId, ref: 'Move'}],
 })
 
 const Class = mongoose.model('Class', ClassSchema)
