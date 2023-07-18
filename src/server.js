@@ -17,6 +17,9 @@ app.use("/users", usersRouter)
 const optionsRouter = require('./routes/options_routes')
 app.use("/options", optionsRouter)
 
+const classesRouter = require('./routes/classes_routes')
+app.use("/classes", classesRouter)
+
 module.exports = { 
   app 
 }
