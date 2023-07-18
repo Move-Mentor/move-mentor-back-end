@@ -20,6 +20,9 @@ app.use("/options", optionsRouter)
 const classesRouter = require('./routes/classes_routes')
 app.use("/classes", classesRouter)
 
+const movesRouter = require('./routes/moves_routes')
+app.use("/moves", movesRouter)
+
 module.exports = { 
   app 
 }
