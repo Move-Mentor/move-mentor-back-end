@@ -14,6 +14,9 @@ app.get("/", (request, response) => {
 const usersRouter = require('./routes/users_routes')
 app.use("/users", usersRouter)
 
+const optionsRouter = require('./routes/options_routes')
+app.use("/options", optionsRouter)
+
 module.exports = { 
   app 
 }

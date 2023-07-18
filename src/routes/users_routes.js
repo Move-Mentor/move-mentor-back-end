@@ -49,5 +49,4 @@ usersRouter.delete("/profile/:userId", (request, response) => {
 }) 
 
 
-
 module.exports = usersRouter
