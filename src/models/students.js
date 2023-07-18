@@ -13,14 +13,13 @@ const StudentSchema = mongoose.Schema({
       type: String,
       required: true,
       unique: true,
-      match: /.+\@.+\..+/,
     },
     password: {
       type: String,
       required: true,
       minLength: 8,
-    }
-
+    },
+    classes: [{type: mongoose.Types.ObjectId, ref: 'Class'}]
 })
 
 const Student = mongoose.model('Student', StudentSchema)
