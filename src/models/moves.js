@@ -10,8 +10,6 @@ const MoveSchema = mongoose.Schema({
       type: String,
       required: true
     },
-    classes: [{type: mongoose.Types.ObjectId, ref: 'Class'}]
-    
 })
 
 const Move = mongoose.model('Move', MoveSchema)
