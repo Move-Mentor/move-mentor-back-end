@@ -19,7 +19,7 @@ const StudentSchema = mongoose.Schema({
       required: true,
       minLength: 8,
     },
-    classes: [{type: mongoose.Types.ObjectId, ref: 'Class'}]
+    lessons: [{type: mongoose.Types.ObjectId, ref: 'Lesson'}]
 })
 
 const Student = mongoose.model('Student', StudentSchema)
