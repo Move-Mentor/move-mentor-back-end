@@ -20,7 +20,7 @@ const TeacherSchema = mongoose.Schema({
       minLength: 8,
     },
     admin: Boolean,
-    classes: [{type: mongoose.Types.ObjectId, ref: 'Class'}]
+    lessons: [{type: mongoose.Types.ObjectId, ref: 'Lesson'}]
 })
 
 const Teacher = mongoose.model('Teacher', TeacherSchema)
