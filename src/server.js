@@ -17,8 +17,8 @@ app.use("/users", usersRouter)
 const optionsRouter = require('./routes/options_routes')
 app.use("/options", optionsRouter)
 
-const classesRouter = require('./routes/classes_routes')
-app.use("/classes", classesRouter)
+const lessonsRouter = require('./routes/lessons_routes')
+app.use("/lessons", lessonsRouter)
 
 const movesRouter = require('./routes/moves_routes')
 app.use("/moves", movesRouter)
