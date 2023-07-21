@@ -55,7 +55,6 @@ const loginStudent = async (request, response) => {
   }
 }
 
-
 // Get a specific student based on their ID (currently for testing purposes)
 // Additional auth required
 const getSpecificStudent = async (request, response) => {

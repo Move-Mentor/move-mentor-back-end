@@ -1,5 +1,6 @@
 // import the Express module
-const express = require('express')
+const express = require('express');
+const { signupStudent, loginStudent, getSpecificStudent, getAllStudents } = require('../controllers/students_controller');
 
 // Create the user router instance
 const usersRouter = express.Router();
@@ -34,7 +35,6 @@ usersRouter.delete("/profile/student/:id", (request, response) => {
     {message: "this is to delete a student profile"}
   )
 }) 
-
 
 
 // Teacher routes
