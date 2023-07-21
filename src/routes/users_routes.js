@@ -20,6 +20,7 @@ usersRouter.get("/profile/student/:id", getSpecificStudent)
 usersRouter.get("/student/all", getAllStudents)
 
 // Edit student profile
+// Additional auth required for this route - only an authenticated student can edit their profile.
 usersRouter.put("/profile/student/:id", (request, response) => {
   response.json(
     {message: "this is to edit a student profile"}
@@ -27,18 +28,20 @@ usersRouter.put("/profile/student/:id", (request, response) => {
 }) 
 
 // Delete student profile
+// Additional auth required for this route - only an authenticated student can delete their profile.
 usersRouter.delete("/profile/student/:id", (request, response) => {
-  // Must include authorisation because only a student can delete their profile
   response.json(
-    {message: "this is to delete a profile"}
+    {message: "this is to delete a student profile"}
   )
 }) 
 
 
 
 // Teacher routes
+// Functionality still needs to be developed for these routes
 
-// Existing teacher login
+// Login existing teacher
+// Additional auth required for this route - only an existing teacher can login
 usersRouter.post("/login/teacher", (request, response) => {
   response.json(
     {message: "this is the teacher login"}
@@ -46,24 +49,18 @@ usersRouter.post("/login/teacher", (request, response) => {
 }) 
 
 // View teacher profile
+//Additional auth required for this route - only an authenticated teacher can view their profile.
 usersRouter.get("/profile/teacher/:id", (request, response) => {
   response.json(
     {message: "this is to view a teacher profile"}
   )
 }) 
 
-// Edit user profile
-usersRouter.put("/profile/:userId", (request, response) => {
+// Edit teacher profile
+// Additional auth required for this route - only an authenticated teacher can edit their profile.
+usersRouter.put("/profile/teacher/:id", (request, response) => {
   response.json(
-    {message: "this is to edit a profile"}
-  )
-}) 
-
-// Delete user profile
-usersRouter.delete("/profile/:userId", (request, response) => {
-  // Must include authorisation because only a student can delete their profile
-  response.json(
-    {message: "this is to delete a profile"}
+    {message: "this is to edit a teacher profile"}
   )
 }) 
 
