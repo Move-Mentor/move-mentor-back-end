@@ -10,6 +10,9 @@ const MoveSchema = mongoose.Schema({
       type: String,
       required: true
     },
+    moveAlternativeName: {
+      type: String,
+    }
 })
 
 const Move = mongoose.model('Move', MoveSchema)
