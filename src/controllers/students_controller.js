@@ -1,6 +1,6 @@
 const Student = require('../models/students')
 const bcrypt = require('bcrypt')
-const { createStudentToken } = require('../services/auth_service')
+const { createStudentToken } = require('../services/users_auth_service')
 
 // New student sign up
 const signupStudent = async (request, response) => {
