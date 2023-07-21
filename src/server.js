@@ -34,6 +34,45 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
+// Configure database connection environment settings
+var databaseURL = "";
+switch (process.env.NODE_ENV.toLowerCase()) {
+  case "test":
+    databaseURL = "mongodb://localhost:27017/move_mentor_test";
+    break;
+  case "development":
+    databaseURL = "mongodb://localhost:27017/move_mentor_development";
+    break;
+  case "production":
+    databaseURL = process.env.DATABASE_URL;
+    break;
+  default:
+    console.error("Incorrect environment specified, cannot connect to the database.");
+    break;
+}
+
+const {databaseConnector} = require("./database");
+databaseConnector(databaseURL).then(() =>{
+	console.log("Database is connected");
+}).catch(error => {
+	console.log(`An error occurred when connecting to the database. Error details: ${error}`);
+	console.log(error)
+});
+
+// Configure app to return database health details
+app.get("/databaseHealth", (request, response) => {
+  let databaseState = mongoose.connection.readyState;
+  let databaseName = mongoose.connection.name;
+  let databaseModels = mongoose.connection.modelNames();
+  let databaseHost = mongoose.connection.host;
+
+  response.json({
+    readyState: databaseState,
+    dbName: databaseName,
+    dbModels: databaseModels,
+    dbHost: databaseHost
+  })
+});
 
 app.get("/", (request, response) => {
   response.json({
