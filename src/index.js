@@ -1,5 +1,7 @@
-const { app } = require('./server');
+// Import port and host configurations
+var { app, PORT, HOST } = require('./server');
 
-app.listen(3001, () => {
+// Run the server
+app.listen(PORT, HOST, () => {
   console.log("The server is running");
 });
