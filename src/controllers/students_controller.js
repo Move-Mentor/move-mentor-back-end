@@ -5,7 +5,7 @@ const { createStudentToken } = require('../services/users_auth_service')
 
 // New student sign up
 const signupStudent = async (request, response) => {
-
+ 
   // New student values to be entered and saved to database
   let newStudent = new Student({
     firstName: request.body.firstName,
@@ -59,8 +59,12 @@ const loginStudent = async (request, response) => {
 // Get a specific student based on their ID (currently for testing purposes)
 // Additional auth required
 const getSpecificStudent = async (request, response) => {
-  // Returns the specific database document
-  let student = await Student.findById(request.params.id).populate('lessons');
+
+  // Retrieve the studentId from the URL parameter
+  const studentId = request.params.studentId;
+  
+  // Fetch the specific student from the database using the studentId parameter
+  let student = await Student.findById(request.params.studentId).populate('lessons');
 
   response.send(student)
 }

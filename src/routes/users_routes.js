@@ -15,14 +15,14 @@ usersRouter.post("/login/student", loginStudent)
 
 // View student profile (for testing purposes). 
 //Additional auth required for this route - only an authenticated student can view their profile.
-usersRouter.get("/profile/student/:id", getSpecificStudent)
+usersRouter.get("/profile/student/:studentId", getSpecificStudent)
 
 // List all students (for testing purposes)
 usersRouter.get("/student/all", getAllStudents)
 
 // Edit student profile
 // Additional auth required for this route - only an authenticated student can edit their profile.
-usersRouter.put("/profile/student/:id", (request, response) => {
+usersRouter.put("/profile/student/:studentid", (request, response) => {
   response.json(
     {message: "this is to edit a student profile"}
   )
@@ -30,7 +30,7 @@ usersRouter.put("/profile/student/:id", (request, response) => {
 
 // Delete student profile
 // Additional auth required for this route - only an authenticated student can delete their profile.
-usersRouter.delete("/profile/student/:id", (request, response) => {
+usersRouter.delete("/profile/student/:studentid", (request, response) => {
   response.json(
     {message: "this is to delete a student profile"}
   )
