@@ -19,16 +19,24 @@ const signupStudent = async (request, response) => {
     lessons: request.body.lessons
   })
 
-  await newStudent.save()
-    .catch(error => {
-      console.log(error.errors)
-      // Error handling: try catch block OR middleware... email not unique, password not longer than 8 characters, required fields not entered.
-    })
+  try {
+    // Check if email used to signup is already in use
+    const existingStudent = await Student.findOne({email: request.body.email});
+    if (existingStudent) {
+      return response.status(409).json({Error: "Email is already registered."})
+    }
+    
+    // Save new student to database
+    await newStudent.save();
+    return response.status(201);
+    } catch (error) {
+    console.error(error);
+  }
   
   // Generate student JWT
   const studentToken = createStudentToken(newStudent._id, newStudent.email)
 
-  response.json({
+  return response.json({
     email: newStudent.email,
     token: studentToken
   })
@@ -43,16 +51,14 @@ const loginStudent = async (request, response) => {
   if (existingStudent && bcrypt.compareSync(request.body.password, existingStudent.password)) {
     const studentToken = createStudentToken(existingStudent._id, existingStudent.email)
 
-    response.json({
+    return response.status(200).json({
       email: existingStudent.email,
       token: studentToken
     })
   
-  // Else send an error message to say authentication failed 
+  // Else authentication has failed due to invalid or incorrect login details
   } else {
-    response.json({
-      error: "authentication failed"
-    })
+    return response.status(401).json({Error: "Authentication failed"})
   }
 }
 
@@ -74,7 +80,11 @@ const getAllStudents = async (request, response) => {
   // Return an array of database documents
   let allStudents = await Student.find();
 
-  response.send(allStudents)
+  if (allStudents.length === 0) {
+    return response.status(404).json({Error: "No students found."})
+  } else {
+    return response.status(200).send(allStudents);
+  }
 }
 
 module.exports = { signupStudent, loginStudent, getAllStudents, getSpecificStudent }
