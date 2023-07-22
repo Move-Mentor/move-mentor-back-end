@@ -1,4 +1,5 @@
 const Student = require('../models/students')
+const Lesson = require('../models/lessons')
 const bcrypt = require('bcrypt')
 const { createStudentToken } = require('../services/users_auth_service')
 
@@ -15,7 +16,7 @@ const signupStudent = async (request, response) => {
       request.body.password, 
       bcrypt.genSaltSync(10)
     ),
-    lessons: []
+    lessons: request.body.lessons
   })
 
   await newStudent.save()
@@ -59,7 +60,7 @@ const loginStudent = async (request, response) => {
 // Additional auth required
 const getSpecificStudent = async (request, response) => {
   // Returns the specific database document
-  let student = await Student.findById(request.params.id);
+  let student = await Student.findById(request.params.id).populate('lessons');
 
   response.send(student)
 }
