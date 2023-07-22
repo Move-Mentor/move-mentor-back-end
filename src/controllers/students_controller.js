@@ -28,18 +28,18 @@ const signupStudent = async (request, response) => {
     
     // Save new student to database
     await newStudent.save();
-    return response.status(201);
+
+    // Generate student JWT
+    const studentToken = createStudentToken(newStudent._id, newStudent.email)
+
+    return response.status(201).json({
+      email: newStudent.email,
+      token: studentToken
+    });
     } catch (error) {
     console.error(error);
+    return response.json(error)
   }
-  
-  // Generate student JWT
-  const studentToken = createStudentToken(newStudent._id, newStudent.email)
-
-  return response.json({
-    email: newStudent.email,
-    token: studentToken
-  })
 }
 
 // Existing student login

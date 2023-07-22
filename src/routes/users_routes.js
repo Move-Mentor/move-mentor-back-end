@@ -1,5 +1,6 @@
 // import the Express module
 const express = require('express');
+const { body } = require('express-validator');
 const { signupStudent, loginStudent, getSpecificStudent, getAllStudents } = require('../controllers/students_controller');
 
 // Create the user router instance
@@ -8,7 +9,10 @@ const usersRouter = express.Router();
 // Student routes
 
 // Sign up new student
-usersRouter.post("/signup/student", signupStudent)
+usersRouter.post("/signup/student", 
+  // body('email').isEmail().withMessage("Must be a valid email address."),
+  // body('password').trim().escape().isLength({min: 8}).withMessage("Password length must be 8 or more characters."), 
+  signupStudent)
 
 // Login existing student
 usersRouter.post("/login/student", loginStudent)
