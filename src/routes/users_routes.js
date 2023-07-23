@@ -1,50 +1,66 @@
 // import the Express module
-const express = require('express')
+const express = require('express');
+const { signupStudent, loginStudent, getSpecificStudent, getAllStudents } = require('../controllers/students_controller');
 
 // Create the user router instance
 const usersRouter = express.Router();
 
-// New student sign up
-usersRouter.post("/signup/student", (request, response) => {
+// Student routes
+
+// Sign up new student
+usersRouter.post("/signup/student", signupStudent)
+
+// Login existing student
+usersRouter.post("/login/student", loginStudent)
+
+// View student profile (for testing purposes). 
+//Additional auth required for this route - only an authenticated student can view their profile.
+usersRouter.get("/profile/student/:studentId", getSpecificStudent)
+
+// List all students (for testing purposes)
+usersRouter.get("/student/all", getAllStudents)
+
+// Edit student profile
+// Additional auth required for this route - only an authenticated student can edit their profile.
+usersRouter.put("/profile/student/:studentid", (request, response) => {
   response.json(
-    {message: "this is the student signup"}
+    {message: "this is to edit a student profile"}
   )
 }) 
 
-// Existing student login
-usersRouter.post("/login/student", (request, response) => {
+// Delete student profile
+// Additional auth required for this route - only an authenticated student can delete their profile.
+usersRouter.delete("/profile/student/:studentid", (request, response) => {
   response.json(
-    {message: "this is the student login"}
+    {message: "this is to delete a student profile"}
   )
 }) 
 
-// Existing teacher login
+
+// Teacher routes
+// Functionality still needs to be developed for these routes
+
+// Login existing teacher
+// Additional auth required for this route - only an existing teacher can login
 usersRouter.post("/login/teacher", (request, response) => {
   response.json(
     {message: "this is the teacher login"}
   )
 }) 
 
-// View user profile
-usersRouter.get("/profile/:userId", (request, response) => {
-  // Must include authorisation because the profile functions available to students and teachers differ
+// View teacher profile
+//Additional auth required for this route - only an authenticated teacher can view their profile.
+usersRouter.get("/profile/teacher/:id", (request, response) => {
   response.json(
-    {message: "this is to view a profile"}
+    {message: "this is to view a teacher profile"}
   )
 }) 
 
-// Edit user profile
-usersRouter.put("/profile/:userId", (request, response) => {
+// Edit teacher profile
+// Additional auth required for this route - only an authenticated teacher can edit their profile.
+usersRouter.put("/profile/teacher/:id", (request, response) => {
   response.json(
-    {message: "this is to edit a profile"}
-  )
-}) 
-
-// Delete user profile
-usersRouter.delete("/profile/:userId", (request, response) => {
-  // Must include authorisation because only a student can delete their profile
-  response.json(
-    {message: "this is to delete a profile"}
+    {message: "this is to edit a teacher profile"}
   )
 }) 
 
