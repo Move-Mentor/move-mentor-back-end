@@ -1,4 +1,5 @@
 const Student = require('../models/students')
+const Lesson = require('../models/lessons')
 const bcrypt = require('bcrypt')
 const { createStudentToken } = require('../services/users_auth_service')
 
@@ -15,7 +16,7 @@ const signupStudent = async (request, response) => {
       request.body.password, 
       bcrypt.genSaltSync(10)
     ),
-    lessons: request.body.lessons
+    lessons: request.body.lessons // This reference works as long as the Lessons model as been imported into this file
   })
 
   try {

@@ -93,9 +93,9 @@ const movesRouter = require('./routes/moves_routes')
 app.use("/moves", movesRouter)
 
 // Custom 404 error message when the specified route was not found
-app.get('*', (request, response) => {
+app.get("*", (request, response) => {
   response.status(404).json({
-      message: "The specified route was not found",
+      Message: "The specified route was not found",
       attemptedPath: request.path
   });
 });

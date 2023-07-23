@@ -8,9 +8,19 @@ const usersRouter = express.Router();
 
 // Student routes
 
+// Retrieve student sign up page
+usersRouter.get("/signup/student", (request, response) => {
+  return response.status(200).json({Message: "This is the student signup page."})
+})
+
 // Sign up new student
 usersRouter.post("/signup/student", fieldValidation, signupValidation,
   signupStudent)
+
+// Retrieve student login page
+usersRouter.get("/login/student", (request, response) => {
+  return response.status(200).json({Message: "This is the student login page."})
+})
 
 // Login existing student
 usersRouter.post("/login/student", loginStudent)
