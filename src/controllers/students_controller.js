@@ -1,11 +1,10 @@
 const Student = require('../models/students')
-const Lesson = require('../models/lessons')
 const bcrypt = require('bcrypt')
 const { createStudentToken } = require('../services/users_auth_service')
 
 // New student sign up
 const signupStudent = async (request, response) => {
- 
+
   // New student values to be entered and saved to database
   let newStudent = new Student({
     firstName: request.body.firstName,
