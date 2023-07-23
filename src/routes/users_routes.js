@@ -2,6 +2,7 @@
 const express = require('express');
 const { signupStudent, loginStudent, getSpecificStudent, getAllStudents } = require('../controllers/students_controller');
 const { fieldValidation, signupValidation } = require('../services/users_validation_service');
+const { loginTeacher, getSpecificTeacher } = require('../controllers/teachers_controller');
 
 // Create the user router instance
 const usersRouter = express.Router();
@@ -34,7 +35,7 @@ usersRouter.get("/student/all", getAllStudents)
 
 // Edit student profile
 // Additional auth required for this route - only an authenticated student can edit their profile.
-usersRouter.put("/profile/student/:studentid", (request, response) => {
+usersRouter.put("/profile/student/:studentId", (request, response) => {
   response.json(
     {message: "this is to edit a student profile"}
   )
@@ -50,23 +51,20 @@ usersRouter.delete("/profile/student/:studentid", (request, response) => {
 
 
 // Teacher routes
-// Functionality still needs to be developed for these routes
 
-// Login existing teacher
-// Additional auth required for this route - only an existing teacher can login
-usersRouter.post("/login/teacher", (request, response) => {
-  response.json(
-    {message: "this is the teacher login"}
+// Retrieve teacher login page
+usersRouter.get("/login/teacher", (request, response) => {
+  return response.status(200).json({Message: "This is the teacher login page."}
   )
 }) 
+
+
+// Login existing teacher
+usersRouter.post("/login/teacher", loginTeacher)
 
 // View teacher profile
 //Additional auth required for this route - only an authenticated teacher can view their profile.
-usersRouter.get("/profile/teacher/:id", (request, response) => {
-  response.json(
-    {message: "this is to view a teacher profile"}
-  )
-}) 
+usersRouter.get("/profile/teacher/:teacherId", getSpecificTeacher)
 
 // Edit teacher profile
 // Additional auth required for this route - only an authenticated teacher can edit their profile.
