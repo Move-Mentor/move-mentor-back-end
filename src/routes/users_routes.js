@@ -1,8 +1,9 @@
 // import the Express module
 const express = require('express');
-const { signupStudent, loginStudent, getSpecificStudent, getAllStudents } = require('../controllers/students_controller');
-const { fieldValidation, signupValidation } = require('../services/users_validation_service');
+const { signupStudent, loginStudent, getSpecificStudent, getAllStudents, updateStudent, deleteStudent } = require('../controllers/students_controller');
+const { fieldValidation, signupValidation } = require('../middlewares/users_validation_middleware');
 const { loginTeacher, getSpecificTeacher } = require('../controllers/teachers_controller');
+const validateStudentRequest = require('../middlewares/auth_middleware');
 
 // Create the user router instance
 const usersRouter = express.Router();
@@ -26,28 +27,18 @@ usersRouter.get("/login/student", (request, response) => {
 // Login existing student
 usersRouter.post("/login/student", loginStudent)
 
-// View student profile (for testing purposes). 
-//Additional auth required for this route - only an authenticated student can view their profile.
-usersRouter.get("/profile/student/:studentId", getSpecificStudent)
+// View student profile, only accessible with a valid student token
+usersRouter.get("/profile/student", validateStudentRequest, getSpecificStudent)
 
-// List all students (for testing purposes)
-usersRouter.get("/student/all", getAllStudents)
+// List all students (for testing purposes, can only access with a valid student token)
+usersRouter.get("/student/all", validateStudentRequest, getAllStudents)
+
 
 // Edit student profile
-// Additional auth required for this route - only an authenticated student can edit their profile.
-usersRouter.put("/profile/student/:studentId", (request, response) => {
-  response.json(
-    {message: "this is to edit a student profile"}
-  )
-}) 
+usersRouter.put("/profile/student", validateStudentRequest, updateStudent)
 
 // Delete student profile
-// Additional auth required for this route - only an authenticated student can delete their profile.
-usersRouter.delete("/profile/student/:studentid", (request, response) => {
-  response.json(
-    {message: "this is to delete a student profile"}
-  )
-}) 
+usersRouter.delete("/profile/student", validateStudentRequest, deleteStudent) 
 
 
 // Teacher routes

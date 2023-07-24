@@ -1,3 +1,4 @@
+const { response } = require('express')
 const jwt = require('jsonwebtoken')
 
 // Create the student JWT
@@ -22,7 +23,7 @@ const verifyStudentToken = (studentToken) => {
   try {
     return jwt.verify(studentToken, process.env.STUDENT_SECRET_KEY)
   } catch (error) {
-    throw new Error("Invalid token")
+    throw new Error("Invalid token.")
   }
 }
 
@@ -48,7 +49,7 @@ const verifyTeacherToken = (teacherToken) => {
   try {
     return jwt.verify(teacherToken, process.env.TEACHER_SECRET_KEY)
   } catch (error) {
-    throw new Error("Invalid token")
+    throw new Error("Invalid token.")
   }
 }
 
