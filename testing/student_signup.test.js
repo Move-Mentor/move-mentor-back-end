@@ -5,12 +5,13 @@ const { app } = require('../src/server');
 require("dotenv").config();
 
 // Connect to the test database before each test
-beforeEach(async () => {
+beforeAll(async () => {
   await mongoose.connect("mongodb://localhost:27017/move_mentor_test");
 });
 
 // Close the database connection after each test
-afterEach(async () => {
+afterAll(async () => {
+  await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
 });
 
