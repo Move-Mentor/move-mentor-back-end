@@ -67,14 +67,19 @@ const loginStudent = async (request, response) => {
 // Additional auth required
 const getSpecificStudent = async (request, response) => {
   try {
-    // Retrieve the studentId from the URL parameter
-    const studentId = request.params.studentId;
+    // Retrieve the student id from the URL parameter
+    const studentIdFromURL = request.params.studentId;
+
+    // Retrieve the student id from the decoded student object
+    const studentIdFromToken = request.validStudent.d;
+
+    // Check the student id from URL and token match
+    if (studentIdFromURL !== studentIdFromToken) {
+      return response.status(403).json({Error: "Not authorised to view this profile."})
+    }
 
     // Fetch the specific student from the database using the studentId parameter
-    let student = await Student.findOne({
-      _id: studentId,
-      studentId: request.validStudent.studentId
-      }).populate('lessons');
+    let student = await Student.findbyId(studentIdFromURL).populate('lessons');
 
     if (!student) {
       return response.status(404).json({Error: "Student not found."});

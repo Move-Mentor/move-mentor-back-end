@@ -15,7 +15,7 @@ const validateStudentRequest = (request, response, next) => {
 
       // Verify the student token
       const decodedStudent = verifyStudentToken(studentToken)
-      request.validStudent = decoded
+      request.validStudent = decodedStudent
       return next();
 
   // Else if no Student token is present, throw an error
