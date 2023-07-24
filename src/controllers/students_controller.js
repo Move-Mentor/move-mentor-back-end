@@ -2,6 +2,7 @@ const Student = require('../models/students')
 const Lesson = require('../models/lessons')
 const bcrypt = require('bcrypt')
 const { createStudentToken } = require('../services/users_auth_service')
+const { response } = require('express')
 
 // New student sign up
 const signupStudent = async (request, response) => {
@@ -65,14 +66,26 @@ const loginStudent = async (request, response) => {
 // Get a specific student based on their ID (currently for testing purposes)
 // Additional auth required
 const getSpecificStudent = async (request, response) => {
+  try {
+    // Retrieve the studentId from the URL parameter
+    const studentId = request.params.studentId;
 
-  // Retrieve the studentId from the URL parameter
-  const studentId = request.params.studentId;
-  
-  // Fetch the specific student from the database using the studentId parameter
-  let student = await Student.findById(request.params.studentId).populate('lessons');
+    // Fetch the specific student from the database using the studentId parameter
+    let student = await Student.findOne({
+      _id: studentId,
+      studentId: request.validStudent.studentId
+      }).populate('lessons');
 
-  response.send(student)
+    if (!student) {
+      return response.status(404).json({Error: "Student not found."});
+    }
+
+    return response.status(200).send(student);
+
+  } catch (error) {
+    console.error(error);
+    return response.json(error)
+  }
 }
 
 // Get all students (for testing purposes)

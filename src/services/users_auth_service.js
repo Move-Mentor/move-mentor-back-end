@@ -17,7 +17,6 @@ const createStudentToken = (student_id, email) => {
   )
 }
 
-
 // Verify the student JWT
 const verifyStudentToken = (studentToken) => {
   try {
@@ -28,7 +27,6 @@ const verifyStudentToken = (studentToken) => {
 }
 
 // Create the teacher JWT
-
 const createTeacherToken = (teacher_id, email) => {
   return jwt.sign(
     // Create the token identity
