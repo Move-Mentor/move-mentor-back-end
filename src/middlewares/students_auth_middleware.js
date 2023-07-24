@@ -1,5 +1,6 @@
-const { verifyStudentToken } = require("../services/users_auth_service");
+const { verifyStudentToken } = require('../services/students_auth_service');
 
+// Student JWT validation
 const validateStudentRequest = (request, response, next) => {
   console.log(request.headers) // log header information in the console
 

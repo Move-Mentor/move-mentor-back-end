@@ -2,8 +2,9 @@
 const express = require('express');
 const { signupStudent, loginStudent, getSpecificStudent, getAllStudents, updateStudent, deleteStudent } = require('../controllers/students_controller');
 const { fieldValidation, signupValidation } = require('../middlewares/users_validation_middleware');
-const { loginTeacher, getSpecificTeacher } = require('../controllers/teachers_controller');
-const validateStudentRequest = require('../middlewares/auth_middleware');
+const { loginTeacher, getSpecificTeacher, updateTeacher } = require('../controllers/teachers_controller');
+const validateStudentRequest = require('../middlewares/students_auth_middleware');
+const validateTeacherRequest = require('../middlewares/teachers_auth_middleware')
 
 // Create the user router instance
 const usersRouter = express.Router();
@@ -40,7 +41,6 @@ usersRouter.put("/profile/student", validateStudentRequest, updateStudent)
 // Delete student profile
 usersRouter.delete("/profile/student", validateStudentRequest, deleteStudent) 
 
-
 // Teacher routes
 
 // Retrieve teacher login page
@@ -49,20 +49,13 @@ usersRouter.get("/login/teacher", (request, response) => {
   )
 }) 
 
-
 // Login existing teacher
 usersRouter.post("/login/teacher", loginTeacher)
 
 // View teacher profile
-//Additional auth required for this route - only an authenticated teacher can view their profile.
-usersRouter.get("/profile/teacher/:teacherId", getSpecificTeacher)
+usersRouter.get("/profile/teacher", validateTeacherRequest, getSpecificTeacher)
 
 // Edit teacher profile
-// Additional auth required for this route - only an authenticated teacher can edit their profile.
-usersRouter.put("/profile/teacher/:id", (request, response) => {
-  response.json(
-    {message: "this is to edit a teacher profile"}
-  )
-}) 
+usersRouter.put("/profile/teacher", validateTeacherRequest, updateTeacher)
 
 module.exports = usersRouter
