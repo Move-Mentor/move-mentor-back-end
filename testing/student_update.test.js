@@ -2,13 +2,8 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const { app } = require('../src/server');
 const Student = require('../src/models/students'); 
-<<<<<<< HEAD
-const { createStudentToken } = require('../src/services/students_auth_service');
-const validateStudentRequest = require('../src/middlewares/students_auth_middleware')
-=======
 const { createStudentToken } = require('../src/services/users_auth_service');
 const validateStudentRequest = require('../src/middlewares/auth_middleware')
->>>>>>> main
 
 require("dotenv").config();
 
