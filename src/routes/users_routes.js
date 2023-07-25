@@ -1,14 +1,26 @@
 // import the Express module
 const express = require('express');
 const { signupStudent, loginStudent, getSpecificStudent, getAllStudents } = require('../controllers/students_controller');
+const { fieldValidation, signupValidation } = require('../services/users_validation_service');
 
 // Create the user router instance
 const usersRouter = express.Router();
 
 // Student routes
 
+// Retrieve student sign up page
+usersRouter.get("/signup/student", (request, response) => {
+  return response.status(200).json({Message: "This is the student signup page."})
+})
+
 // Sign up new student
-usersRouter.post("/signup/student", signupStudent)
+usersRouter.post("/signup/student", fieldValidation, signupValidation,
+  signupStudent)
+
+// Retrieve student login page
+usersRouter.get("/login/student", (request, response) => {
+  return response.status(200).json({Message: "This is the student login page."})
+})
 
 // Login existing student
 usersRouter.post("/login/student", loginStudent)

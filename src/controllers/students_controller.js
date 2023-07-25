@@ -5,7 +5,7 @@ const { createStudentToken } = require('../services/users_auth_service')
 
 // New student sign up
 const signupStudent = async (request, response) => {
- 
+
   // New student values to be entered and saved to database
   let newStudent = new Student({
     firstName: request.body.firstName,
@@ -16,22 +16,30 @@ const signupStudent = async (request, response) => {
       request.body.password, 
       bcrypt.genSaltSync(10)
     ),
-    lessons: request.body.lessons
+    lessons: request.body.lessons // This reference works as long as the Lessons model as been imported into this file
   })
 
-  await newStudent.save()
-    .catch(error => {
-      console.log(error.errors)
-      // Error handling: try catch block OR middleware... email not unique, password not longer than 8 characters, required fields not entered.
-    })
-  
-  // Generate student JWT
-  const studentToken = createStudentToken(newStudent._id, newStudent.email)
+  try {
+    // Check if email used to signup is already in use
+    const existingStudent = await Student.findOne({email: request.body.email});
+    if (existingStudent) {
+      return response.status(409).json({Error: "Email is already registered."})
+    }
+    
+    // Save new student to database
+    await newStudent.save();
 
-  response.json({
-    email: newStudent.email,
-    token: studentToken
-  })
+    // Generate student JWT
+    const studentToken = createStudentToken(newStudent._id, newStudent.email)
+
+    return response.status(201).json({
+      email: newStudent.email,
+      token: studentToken
+    });
+    } catch (error) {
+    console.error(error);
+    return response.json(error)
+  }
 }
 
 // Existing student login
@@ -43,16 +51,14 @@ const loginStudent = async (request, response) => {
   if (existingStudent && bcrypt.compareSync(request.body.password, existingStudent.password)) {
     const studentToken = createStudentToken(existingStudent._id, existingStudent.email)
 
-    response.json({
+    return response.status(200).json({
       email: existingStudent.email,
       token: studentToken
     })
   
-  // Else send an error message to say authentication failed 
+  // Else authentication has failed due to invalid or incorrect login details
   } else {
-    response.json({
-      error: "authentication failed"
-    })
+    return response.status(401).json({Error: "Authentication failed"})
   }
 }
 
@@ -74,7 +80,11 @@ const getAllStudents = async (request, response) => {
   // Return an array of database documents
   let allStudents = await Student.find();
 
-  response.send(allStudents)
+  if (allStudents.length === 0) {
+    return response.status(404).json({Error: "No students found."})
+  } else {
+    return response.status(200).send(allStudents);
+  }
 }
 
 module.exports = { signupStudent, loginStudent, getAllStudents, getSpecificStudent }

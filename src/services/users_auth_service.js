@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 
+// Create the student JWT
 const createStudentToken = (student_id, email) => {
   return jwt.sign(
     // Create the token identity
@@ -16,6 +17,8 @@ const createStudentToken = (student_id, email) => {
   )
 }
 
+
+// Verify the student JWT
 const verifyStudentToken = (studentToken) => {
   try {
     return jwt.verify(studentToken, process.env.STUDENT_SECRET_KEY)
@@ -23,5 +26,9 @@ const verifyStudentToken = (studentToken) => {
     throw new Error("Invalid token")
   }
 }
+
+// Create the teacher JWT (to be developed)
+// const createTeacherToken = (teacher_id, email)
+
 
 module.exports = { createStudentToken, verifyStudentToken }
