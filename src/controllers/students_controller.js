@@ -87,4 +87,8 @@ const getAllStudents = async (request, response) => {
   }
 }
 
-module.exports = { signupStudent, loginStudent, getAllStudents, getSpecificStudent }
+module.exports = { 
+  signupStudent, 
+  loginStudent, 
+  getAllStudents, 
+  getSpecificStudent }

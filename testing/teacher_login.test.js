@@ -14,17 +14,17 @@ afterEach(async () => {
   await mongoose.connection.close();
 });
 
-// Test student sign up 
-describe("Student...", () => {
+// Test teacher sign up 
+describe("Teacher...", () => {
   describe("...login page...", () => {
 
     it("...responds with status 200", async () => {
-      const response = await request(app).get("/users/login/student")
+      const response = await request(app).get("/users/login/teacher")
       expect(response.statusCode).toBe(200);
     })
   
     it("...responds with a JSON object", async () => {
-      const response = await request(app).get("/users/login/student")
+      const response = await request(app).get("/users/login/teacher")
       const responseBodyDataType = typeof(response.body);
       expect(responseBodyDataType).toBe("object");
     })
