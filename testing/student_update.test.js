@@ -42,21 +42,24 @@ beforeAll(async () => {
   validToken = createStudentToken(savedStudent.student_id, savedStudent.email);
 });
 
+<<<<<<< HEAD
+// Apply the validateStudentRequest middleware after the route definitions
+app.use(validateStudentRequest);
+=======
 describe('updateStudent', () => {
   it('should update a student profile with a valid JWT', async () => {
     // Define the updated data for the student profile
     const updatedData = {
-      _id: '64baa41f334238e44139660a',
-      firstName: 'Johnathan',
-      lastName: 'Dow',
-      email: 'john.doe@example.com',
-      password: 'hashed_password',
+      firstName: 'Johnathan2',
+      lastName: 'Dow2',
+      email: 'john.doe2@example.com',
+      password: 'hashed_password2',
       lessons: ["64bafbd999bdd75bc6046b6d"]
     };
 
     // Send the request to update the student profile with the valid JWT
     const response = await request(app)
-      .put("/profile/student")
+      .put("/users/profile/student")
       .set('Authorization', `Bearer ${validToken}`)
       .send(updatedData);
 
@@ -67,7 +70,7 @@ describe('updateStudent', () => {
 
   it('should return 404 if student not found', async () => {
     // Create a valid but non-existent student ID
-    const nonExistentStudentID = 'non-existent-student-id';
+    const nonExistentStudentID = '11baa41f334238e44139660a';
     const validToken = createStudentToken(nonExistentStudentID, 'someemail@example.com');
 
     // Define the updated data for the student profile
@@ -77,7 +80,7 @@ describe('updateStudent', () => {
 
     // Send the request to update the student profile with the valid JWT
     const response = await request(app)
-      .put("/profile/student")
+      .put("/users/profile/student")
       .set('Authorization', `Bearer ${validToken}`)
       .send(updatedData);
 
