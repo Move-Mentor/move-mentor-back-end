@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test-coverage": "jest --coverage",
+    "test": "jest --runInBand",
+    "test-coverage": "jest --runInBand --coverage",
     "start": "NODE_ENV=production node src/index.js",
     "dev": "NODE_ENV=development nodemon src/index.js"
   },
