@@ -17,8 +17,8 @@ app.use(helmet());
 app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.contentSecurityPolicy({
-  directives:{
-    defaultSrc:["'self'"]
+  directives: {
+    defaultSrc: ["'self'"]
   }
 }));
 
@@ -32,32 +32,7 @@ app.use(cors(corsOptions));
 
 // Configure data formatting settings for APIs
 app.use(express.json());
-app.use(express.urlencoded({extended: true}))
-
-// Configure database connection environment settings
-var databaseURL = "";
-switch (process.env.NODE_ENV.toLowerCase()) {
-  case "test":
-    databaseURL = "mongodb://localhost:27017/move_mentor_test";
-    break;
-  case "development":
-    databaseURL = "mongodb://localhost:27017/move_mentor_development";
-    break;
-  case "production":
-    databaseURL = process.env.DATABASE_URL;
-    break;
-  default:
-    console.error("Incorrect environment specified, cannot connect to the database.");
-    break;
-}
-
-const {databaseConnector} = require("./database");
-databaseConnector(databaseURL).then(() =>{
-	console.log("Database is connected");
-}).catch(error => {
-	console.log(`An error occurred when connecting to the database. Error details: ${error}`);
-	console.log(error)
-});
+app.use(express.urlencoded({ extended: true }))
 
 // Configure app to return database health details
 app.get("/databaseHealth", (request, response) => {
@@ -95,13 +70,13 @@ app.use("/moves", movesRouter)
 // Custom 404 error message when the specified route was not found
 app.get("*", (request, response) => {
   response.status(404).json({
-      Message: "The specified route was not found",
-      attemptedPath: request.path
+    Message: "The specified route was not found",
+    attemptedPath: request.path
   });
 });
 
-module.exports = { 
+module.exports = {
   HOST,
   PORT,
-  app 
+  app
 }
