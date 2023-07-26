@@ -13,7 +13,7 @@ const signupStudent = async (request, response) => {
     lastName: request.body.lastName,
     email: request.body.email,
     password: bcrypt.hashSync( // Hashing and salting of password for additional security
-      request.body.password,  
+      request.body.password,
       bcrypt.genSaltSync(10)
     ),
     lessons: request.body.lessons // This reference works as long as the Lessons model as been imported into this file
@@ -21,11 +21,11 @@ const signupStudent = async (request, response) => {
 
   try {
     // Check if email used to signup is already in use
-    const existingStudent = await Student.findOne({email: request.body.email});
+    const existingStudent = await Student.findOne({ email: request.body.email });
     if (existingStudent) {
-      return response.status(409).json({Error: "Email is already registered."})
+      return response.status(409).json({ Error: "Email is already registered." })
     }
-    
+
     // Save new student to database
     await newStudent.save();
 
@@ -36,7 +36,7 @@ const signupStudent = async (request, response) => {
       email: newStudent.email,
       token: studentToken
     });
-    } catch (error) {
+  } catch (error) {
     console.error(error);
     return response.json(error)
   }
@@ -45,7 +45,7 @@ const signupStudent = async (request, response) => {
 // Existing student login
 const loginStudent = async (request, response) => {
   // Find the student based on their email
-  const existingStudent = await Student.findOne({email: request.body.email})
+  const existingStudent = await Student.findOne({ email: request.body.email })
 
   // If the student email exists and they have a valid password return the student email and JWT
   if (existingStudent && bcrypt.compareSync(request.body.password, existingStudent.password)) {
@@ -55,10 +55,10 @@ const loginStudent = async (request, response) => {
       email: existingStudent.email,
       token: studentToken
     })
-  
-  // Else authentication has failed due to invalid or incorrect login details
+
+    // Else authentication has failed due to invalid or incorrect login details
   } else {
-    return response.status(401).json({Error: "Authentication failed"})
+    return response.status(401).json({ Error: "Authentication failed" })
   }
 }
 
@@ -68,7 +68,7 @@ const getAllStudents = async (request, response) => {
   let allStudents = await Student.find();
 
   if (allStudents.length === 0) {
-    return response.status(404).json({Error: "No students found."})
+    return response.status(404).json({ Error: "No students found." })
   } else {
     return response.status(200).send(allStudents);
   }
@@ -81,7 +81,7 @@ const getSpecificStudent = async (request, response) => {
     let student = await Student.findById(request.validStudent.student_id).populate('lessons');
 
     if (!student) {
-      return response.status(404).json({Error: "Student not found."});
+      return response.status(404).json({ Error: "Student not found." });
     }
 
     return response.status(200).send(student);
@@ -95,7 +95,7 @@ const getSpecificStudent = async (request, response) => {
 // Update a student profile
 const updateStudent = async (request, response) => {
   // Fetch student with a valid JWT from the database and update and save the edited profile
-  let updatedStudent = await Student.findByIdAndUpdate(request.validStudent.student_id, request.body, {new: true})
+  let updatedStudent = await Student.findByIdAndUpdate(request.validStudent.student_id, request.body, { new: true })
     .catch(error => {
       console.log("Some error occurred while accessing data:\n" + error)
     })
@@ -103,7 +103,7 @@ const updateStudent = async (request, response) => {
   if (updatedStudent) {
     return response.status(201).send(updatedStudent)
   } else {
-    return response.status(404).json({Error: "Student not found."})
+    return response.status(404).json({ Error: "Student not found." })
   }
 }
 
@@ -114,18 +114,19 @@ const deleteStudent = async (request, response) => {
     .catch(error => {
       console.log("Some error occurred while accessing data:\n" + error)
     })
-  
+
   if (deletedStudent) {
-    response.status(200).json({Message: "Student deleted."})
+    response.status(200).json({ Message: "Student deleted." })
   } else {
-    response.status(404).json({Error: "Student not found."})
+    response.status(404).json({ Error: "Student not found." })
   }
 }
 
-module.exports = { 
-  signupStudent, 
-  loginStudent, 
-  getAllStudents, 
+module.exports = {
+  signupStudent,
+  loginStudent,
+  getAllStudents,
   getSpecificStudent,
   updateStudent,
-  deleteStudent }
+  deleteStudent
+}
