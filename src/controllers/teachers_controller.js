@@ -1,7 +1,7 @@
 const Teacher = require('../models/teachers')
 const Lesson = require('../models/lessons')
 const bcrypt = require('bcrypt')
-const { createTeacherToken } = require('../services/users_auth_service')
+const { createTeacherToken } = require('../services/teachers_auth_service')
 
 // Existing teacher login
 const loginTeacher = async (request, response) => {
@@ -23,17 +23,37 @@ const loginTeacher = async (request, response) => {
   }
 }
 
-// Get a specific teacher based on their ID (currently for testing purposes)
-// Additional auth required
+// Get a specific teacher
 const getSpecificTeacher = async (request, response) => {
+  try {
+    // Fetch a specific teacher with a valid JWT from the database using their id
+    let teacher = await Teacher.findById(request.validTeacher.teacher_id).populate('lessons');
 
-  // Retrieve the teacherId from the URL parameter
-  const teacherId = request.params.teacherId;
-  
-  // Fetch the specific teacher from the database using the teacherId parameter
-  let teacher = await Teacher.findById(request.params.teacherId).populate('lessons');
+    if (!teacher) {
+      return response.status(404).json({Error: "Teacher not found."});
+    }
 
-  response.send(teacher)
+    return response.status(200).send(teacher);
+
+  } catch (error) {
+    console.error(error);
+    return response.json(error)
+  }
 }
 
-module.exports = { loginTeacher, getSpecificTeacher }
+// Update a teacher profile
+const updateTeacher = async (request, response) => {
+  // Fetch teacher with a valid JWT from the database and update and save the edited profile
+  let updatedTeacher = await Teacher.findByIdAndUpdate(request.validTeacher.teacher_id, request.body, {new: true})
+    .catch(error => {
+      console.log("Some error occurred while accessing data:\n" + error)
+    })
+
+  if (updatedTeacher) {
+    return response.status(201).send(updatedTeacher)
+  } else {
+    return response.status(404).json({Error: "Teacher not found."})
+  }
+}
+
+module.exports = { loginTeacher, getSpecificTeacher, updateTeacher }

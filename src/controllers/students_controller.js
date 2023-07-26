@@ -1,7 +1,7 @@
 const Student = require('../models/students')
 const Lesson = require('../models/lessons')
 const bcrypt = require('bcrypt')
-const { createStudentToken } = require('../services/users_auth_service')
+const { createStudentToken } = require('../services/students_auth_service')
 const { response } = require('express')
 
 // New student sign up
