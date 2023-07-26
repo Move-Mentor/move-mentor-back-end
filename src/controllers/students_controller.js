@@ -2,6 +2,7 @@ const Student = require('../models/students')
 const Lesson = require('../models/lessons')
 const bcrypt = require('bcrypt')
 const { createStudentToken } = require('../services/users_auth_service')
+const { response } = require('express')
 
 // New student sign up
 const signupStudent = async (request, response) => {
@@ -11,9 +12,8 @@ const signupStudent = async (request, response) => {
     firstName: request.body.firstName,
     lastName: request.body.lastName,
     email: request.body.email,
-    // Hashing and salting of password for additional security
-    password: bcrypt.hashSync(
-      request.body.password, 
+    password: bcrypt.hashSync( // Hashing and salting of password for additional security
+      request.body.password,  
       bcrypt.genSaltSync(10)
     ),
     lessons: request.body.lessons // This reference works as long as the Lessons model as been imported into this file
@@ -44,7 +44,7 @@ const signupStudent = async (request, response) => {
 
 // Existing student login
 const loginStudent = async (request, response) => {
-  // Find the student
+  // Find the student based on their email
   const existingStudent = await Student.findOne({email: request.body.email})
 
   // If the student email exists and they have a valid password return the student email and JWT
@@ -62,19 +62,6 @@ const loginStudent = async (request, response) => {
   }
 }
 
-// Get a specific student based on their ID (currently for testing purposes)
-// Additional auth required
-const getSpecificStudent = async (request, response) => {
-
-  // Retrieve the studentId from the URL parameter
-  const studentId = request.params.studentId;
-  
-  // Fetch the specific student from the database using the studentId parameter
-  let student = await Student.findById(request.params.studentId).populate('lessons');
-
-  response.send(student)
-}
-
 // Get all students (for testing purposes)
 const getAllStudents = async (request, response) => {
   // Return an array of database documents
@@ -87,8 +74,58 @@ const getAllStudents = async (request, response) => {
   }
 }
 
+// Get a specific student
+const getSpecificStudent = async (request, response) => {
+  try {
+    // Fetch a specific student with a valid JWT from the database using their id
+    let student = await Student.findById(request.validStudent.student_id).populate('lessons');
+
+    if (!student) {
+      return response.status(404).json({Error: "Student not found."});
+    }
+
+    return response.status(200).send(student);
+
+  } catch (error) {
+    console.error(error);
+    return response.json(error)
+  }
+}
+
+// Update a student profile
+const updateStudent = async (request, response) => {
+  // Fetch student with a valid JWT from the database and update and save the edited profile
+  let updatedStudent = await Student.findByIdAndUpdate(request.validStudent.student_id, request.body, {new: true})
+    .catch(error => {
+      console.log("Some error occurred while accessing data:\n" + error)
+    })
+
+  if (updatedStudent) {
+    return response.status(201).send(updatedStudent)
+  } else {
+    return response.status(404).json({Error: "Student not found."})
+  }
+}
+
+// Delete a student profile
+const deleteStudent = async (request, response) => {
+  // Fetch student with a valid JWT from the database and delete the profile
+  let deletedStudent = await Student.findByIdAndDelete(request.validStudent.student_id)
+    .catch(error => {
+      console.log("Some error occurred while accessing data:\n" + error)
+    })
+  
+  if (deletedStudent) {
+    response.status(200).json({Message: "Student deleted."})
+  } else {
+    response.status(404).json({Error: "Student not found."})
+  }
+}
+
 module.exports = { 
   signupStudent, 
   loginStudent, 
   getAllStudents, 
-  getSpecificStudent }
+  getSpecificStudent,
+  updateStudent,
+  deleteStudent }
