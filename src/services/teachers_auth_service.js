@@ -1,4 +1,4 @@
-const { response } = require('express')
+const env = require('../environment');
 const jwt = require('jsonwebtoken')
 
 // Create the teacher JWT
@@ -11,23 +11,23 @@ const createTeacherToken = (teacher_id, email) => {
     },
 
     // Set the secret key
-    process.env.TEACHER_SECRET_KEY,
+    env.TEACHER_SECRET_KEY,
 
     // Set the token expiry date
-    {expiresIn: "1 day"}
+    { expiresIn: "1 day" }
   )
 }
 
 // Verify the teacher JWT
 const verifyTeacherToken = (teacherToken) => {
   try {
-    return jwt.verify(teacherToken, process.env.TEACHER_SECRET_KEY)
+    return jwt.verify(teacherToken, env.TEACHER_SECRET_KEY)
   } catch (error) {
     throw new Error("Invalid token.")
   }
 }
 
-module.exports = { 
-  createTeacherToken, 
-  verifyTeacherToken 
+module.exports = {
+  createTeacherToken,
+  verifyTeacherToken
 }
