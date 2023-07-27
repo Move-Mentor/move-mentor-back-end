@@ -11,7 +11,7 @@ const seedStudentData = async (request, response) => {
     password: "seedpassword",
     lessons: ["64bd5c8bb3a65f2dbf60295f"]
   })
-  
+
   await seededStudent.save();
 }
 
