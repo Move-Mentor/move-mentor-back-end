@@ -42,10 +42,9 @@ beforeAll(async () => {
   validToken = createStudentToken(savedStudent.student_id, savedStudent.email);
 });
 
-<<<<<<< HEAD
 // Apply the validateStudentRequest middleware after the route definitions
 app.use(validateStudentRequest);
-=======
+
 describe('updateStudent', () => {
   it('should update a student profile with a valid JWT', async () => {
     // Define the updated data for the student profile
