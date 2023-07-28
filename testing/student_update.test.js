@@ -1,49 +1,20 @@
 const mongoose = require('mongoose');
 const request = require('supertest');
 const { app } = require('../src/server');
-const Student = require('../src/models/students'); 
-const { createStudentToken } = require('../src/services/users_auth_service');
-const validateStudentRequest = require('../src/middlewares/auth_middleware')
+const { databaseConnector } = require("../src/database");
+const { createStudentToken } = require('../src/services/students_auth_service');
+const validateStudentRequest = require('../src/middlewares/students_auth_middleware')
 
-require("dotenv").config();
-
-// Connect to the test database
-beforeAll(async () => {
-  await mongoose.connect("mongodb://localhost:27017/move_mentor_test");
-});
-
-// Drop the database and close the connection after all tests
-afterAll(async () => {
-  await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
-});
-
-beforeAll(() => {
-  // Apply the middleware to the app
-  app.use(validateStudentRequest);
-});
+let mockStudent = {
+  firstName: 'Johnathan',
+  lastName: 'Dow',
+  email: 'john.doe@example.com',
+  password: 'hashed_password',
+  lessons: ["64bafbd999bdd75bc6046b6d"]
+};
 
 // Add this before all the test cases
 let validToken; // Declare a variable to store the JWT
-
-beforeAll(async () => {
-  // Create a new student and save it to the database (use your Student model or database mock)
-  const newStudent = new Student({
-    _id: '64baa41f334238e44139660a',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    password: 'hashed_password',
-    lessons: ["64bafbd999bdd75bc6046b6d"]
-  });
-  const savedStudent = await newStudent.save();
-
-  // Create a valid JWT for the student and store it in the variable
-  validToken = createStudentToken(savedStudent.student_id, savedStudent.email);
-});
-
-// Apply the validateStudentRequest middleware after the route definitions
-app.use(validateStudentRequest);
 
 describe('updateStudent', () => {
   it('should update a student profile with a valid JWT', async () => {

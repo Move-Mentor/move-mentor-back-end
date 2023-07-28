@@ -13,9 +13,9 @@ const getAllLessons = async (request, response) => {
   }
 }
 
-// Get teacher's lessons
-// This function already exists in the teacher's controller model - getSpecificTeacher
-// It retrieves a teacher based on their ID and valid JWT and sends their data along with the lessons attached to their profile
+// Get teacher's and student's lesson/s
+// This function already exists in their respective controllers - getSpecificTeacher & getSpecifiStudent
+// It retrieves a teacher or student based on their ID and valid JWT and sends their data along with the lesson/s attached to their profile
 
 // Get lesson moves
 const getSpecificLesson = async (request, response) => {
@@ -23,7 +23,7 @@ const getSpecificLesson = async (request, response) => {
     let lesson = await Lesson.findById(request.params.id).populate('moves')
       .catch(error => {
         console.log("Some error occurred while accessing data:\n" + error)
-        response.status(404)
+        response.status(500)
       })
     if (lesson) {
       response.status(200).json(lesson)
