@@ -1,18 +1,18 @@
 // import the Express module
 const express = require('express');
-const { getAllMoves, getAllMoveCategories, getSpecificMove, getCategoryLessons } = require('../controllers/moves_controller');
+const { getAllMoves, getAllMoveCategories, getSpecificMove, getAllCategoryMoves } = require('../controllers/moves_controller');
 
 // Create the moves router instance
 const movesRouter = express.Router();
 
-// Retrieve a list of all moves
+// Retrieve a list of all moves (for testing purposes)
 movesRouter.get("/all", getAllMoves)
 
 // Retrieve a list of all move categories
 movesRouter.get("/categories", getAllMoveCategories)
 
-// Retrieve a list of lessons in a specific category
-movesRouter.get("/categories/lessons", getCategoryLessons)
+// Retrieve moves within a category
+movesRouter.get("/categories/moves", getAllCategoryMoves)
 
 // Retrieve a specific move
 movesRouter.get("/:id", getSpecificMove)
