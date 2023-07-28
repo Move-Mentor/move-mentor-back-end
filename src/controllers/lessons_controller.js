@@ -23,7 +23,7 @@ const getSpecificLesson = async (request, response) => {
     let lesson = await Lesson.findById(request.params.id).populate('moves')
       .catch(error => {
         console.log("Some error occurred while accessing data:\n" + error)
-        response.status(404)
+        response.status(500)
       })
     if (lesson) {
       response.status(200).json(lesson)
