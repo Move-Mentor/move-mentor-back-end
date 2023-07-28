@@ -15,11 +15,4 @@ lessonsRouter.get("/:id", getSpecificLesson)
 // Add a move to, or delete a move from a lesson
 lessonsRouter.put("/:id", validateTeacherRequest, updateLesson) 
 
-// Retrieve and display a specific move assigned to a lesson
-lessonsRouter.get("/:lessonId/:moveId", (request, response) => {
-  response.json(
-    {message: "this is the details of a specific move assigned to a lesson"}
-  )
-}) 
-
 module.exports = lessonsRouter
