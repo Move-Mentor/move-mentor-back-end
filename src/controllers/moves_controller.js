@@ -1,6 +1,4 @@
 const Move = require('../models/moves')
-const Lesson = require('../models/lessons');
-
 
 // Get all moves (for testing purposes)
 const getAllMoves = async (request, response) => {
