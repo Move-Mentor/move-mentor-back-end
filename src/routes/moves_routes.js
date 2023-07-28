@@ -12,7 +12,7 @@ movesRouter.get("/all", getAllMoves)
 movesRouter.get("/categories", getAllMoveCategories)
 
 // Retrieve moves within a category
-movesRouter.get("/categories/moves", getAllCategoryMoves)
+movesRouter.get("/categories/:category", getAllCategoryMoves)
 
 // Retrieve a specific move
 movesRouter.get("/:id", getSpecificMove)

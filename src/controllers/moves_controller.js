@@ -26,8 +26,8 @@ const getAllMoveCategories = async (request, response) => {
 
 // Get all moves within a category
 const getAllCategoryMoves = async (request, response) => {
-  const moveCategory = request.params.moveCategory
-  let allCategoryMoves = await Move.find(moveCategory)
+  const category = request.params.category
+  let allCategoryMoves = await Move.find({moveCategory: category})
 
   if (allCategoryMoves.length === 0) {
     return response.status(404).json({Error: "No moves found in this category."})
@@ -38,8 +38,8 @@ const getAllCategoryMoves = async (request, response) => {
 
 // Get a specific move
 const getSpecificMove = async (request, response) => {
-  // Fetch the move by id and list associated lessons
-  let move = await Move.findById(request.params.id).populate('lessons')
+  // Fetch the move by id
+  let move = await Move.findById(request.params.id)
     .catch(error => {
       console.log("Some error occurred while accessing data:\n" + error)
       response.status(404)
