@@ -34,7 +34,6 @@ usersRouter.get("/profile/student", validateStudentRequest, getSpecificStudent)
 // List all students (for testing purposes, can only access with a valid student token)
 usersRouter.get("/student/all", validateStudentRequest, getAllStudents)
 
-
 // Edit student profile
 usersRouter.put("/profile/student", validateStudentRequest, updateStudent)
 
@@ -43,7 +42,7 @@ usersRouter.delete("/profile/student", validateStudentRequest, deleteStudent)
 
 // Teacher routes
 
-// Sign up new teacher (internal use only)
+// Sign up new teacher (for testing purposes, internal use only)
 usersRouter.post("/signup/teacher", fieldValidation, signupValidation,
   signupTeacher)
 

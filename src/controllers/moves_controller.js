@@ -55,6 +55,6 @@ const getSpecificMove = async (request, response) => {
 module.exports = {
   getAllMoves,
   getAllMoveCategories,
-  getCategoryLessons,
+  // getCategoryLessons,
   getSpecificMove
 }

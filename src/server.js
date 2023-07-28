@@ -49,6 +49,7 @@ app.get("/databaseHealth", (request, response) => {
   })
 });
 
+// Home page which renders the New Student Register, Student Login and Teacher Login cards
 app.get("/", (request, response) => {
   response.json({
     message: "Welcome to the Move Mentor backend"
