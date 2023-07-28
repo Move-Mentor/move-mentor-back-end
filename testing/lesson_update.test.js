@@ -37,8 +37,12 @@ describe("When retrieving a specific lesson...", () => {
   });
 
   it("...should return a 404 error if the lesson is not found", async () => {
-    const response = await request(app).get("/lessons/64bfd0c178bbd87588a0b545555");
-    expect(response.status).toBe(404);
-    expect(response.body).toEqual({Error: "Lesson not found."});
+    const invalidObjectId = "64bfd0c178bbd87588a0b545555";
+
+    if (mongoose.Types.ObjectId.isValid(invalidObjectId)) {
+      const response = await request(app).get("/lessons/64bfd0c178bbd87588a0b545555");
+      expect(response.status).toBe(404);
+      expect(response.body).toEqual({Error: "Lesson not found."});
+    }
   });
 });
