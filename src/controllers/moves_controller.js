@@ -14,25 +14,25 @@ const getAllMoves = async (request, response) => {
 }
 
 // Get all move categories
-const getAllMoveCategories = async (request, response) => {
-  let allMoveCategories = await Move.find().select("moveCategory")
+const getMoveCategories = async (request, response) => {
+  let moveCategories = await Move.find().select("moveCategory")
 
-  if (allMoveCategories.length === 0) {
+  if (moveCategories.length === 0) {
     return response.status(404).json({Error: "No categories found."})
   } else {
-    return response.status(200).send(allMoveCategories);
+    return response.status(200).send(moveCategories);
   }
 }
 
 // Get all moves within a category
-const getAllCategoryMoves = async (request, response) => {
+const getCategoryMoves = async (request, response) => {
   const category = request.params.category
-  let allCategoryMoves = await Move.find({moveCategory: category})
+  let categoryMoves = await Move.find({moveCategory: category})
 
-  if (allCategoryMoves.length === 0) {
+  if (categoryMoves.length === 0) {
     return response.status(404).json({Error: "No moves found in this category."})
   } else {
-    return response.status(200).send(allCategoryMoves);
+    return response.status(200).send(categoryMoves);
   }
 }
 
@@ -53,7 +53,7 @@ const getSpecificMove = async (request, response) => {
 
 module.exports = {
   getAllMoves,
-  getAllMoveCategories,
-  getAllCategoryMoves,
+  getMoveCategories,
+  getCategoryMoves,
   getSpecificMove
 }

@@ -4,7 +4,7 @@ const { databaseConnector } = require("../src/database");
 const { app } = require('../src/server');
 
 // Test student sign up 
-describe("Student...", () => {
+describe("Moves...", () => {
 
   // Connect to the test database
   beforeAll(async () => {
@@ -17,18 +17,24 @@ describe("Student...", () => {
     await mongoose.connection.close();
   });
 
-  describe("...sign up page...", () => {
+  describe("...categories functionality...", () => {
 
-    it("...responds with status 200", async () => {
-      const response = await request(app).get("/users/signup/student")
+    it("...responds with status 200 on successful retrieval of categories", async () => {
+      const response = await request(app).get("/moves/categories")
       expect(response.statusCode).toBe(200);
     })
 
-    it("...responds with a JSON object", async () => {
-      const response = await request(app).get("/users/signup/student")
+    it("...responds with a JSON object on successful retrieval of categories", async () => {
+      const response = await request(app).get("/moves/categories")
       const responseBodyDataType = typeof (response.body);
       expect(responseBodyDataType).toBe("object");
     })
+
+    it("...responds with status 404 if no categories are found", async () => {
+      const response = await request(app).get("/moves/categories")
+      expect(response.statusCode).toBe(404);
+    })
+
   });
 
 
