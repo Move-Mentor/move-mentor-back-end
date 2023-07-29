@@ -74,7 +74,7 @@ const getAllStudents = async (request, response) => {
   }
 }
 
-// Get a specific student
+// Get a specific student with their lessons
 const getSpecificStudent = async (request, response) => {
   try {
     // Fetch a specific student with a valid JWT from the database using their id

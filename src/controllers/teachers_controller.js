@@ -62,7 +62,7 @@ const loginTeacher = async (request, response) => {
   }
 }
 
-// Get a specific teacher
+// Get a specific teacher with their lessons
 const getSpecificTeacher = async (request, response) => {
   try {
     // Fetch a specific teacher with a valid JWT from the database using their id

@@ -34,7 +34,6 @@ usersRouter.get("/profile/student", validateStudentRequest, getSpecificStudent)
 // List all students (for testing purposes, can only access with a valid student token)
 usersRouter.get("/student/all", validateStudentRequest, getAllStudents)
 
-
 // Edit student profile
 usersRouter.put("/profile/student", validateStudentRequest, updateStudent)
 
