@@ -5,7 +5,7 @@ const { databaseConnector } = require("./database");
 // Initialise database
 databaseConnector().then(() => {
   // Run the server
-  app.listen(PORT, HOST, () => {
+  app.listen(PORT, () => {
     console.log("The server is running");
   });
 }).catch((error) => {
