@@ -1,5 +1,6 @@
 const Move = require('../models/moves')
 
+
 // Get all moves (for testing purposes)
 const getAllMoves = async (request, response) => {
   let allMoves = await Move.find()
