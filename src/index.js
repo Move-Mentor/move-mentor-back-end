@@ -1,5 +1,5 @@
 // Import port and host configurations
-var { app, PORT, HOST } = require('./server');
+var { app, PORT } = require('./server');
 const { databaseConnector } = require("./database");
 
 // Initialise database

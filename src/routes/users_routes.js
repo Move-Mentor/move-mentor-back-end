@@ -42,10 +42,6 @@ usersRouter.delete("/profile/student", validateStudentRequest, deleteStudent)
 
 // Teacher routes
 
-// Sign up new teacher (for testing purposes, internal use only)
-usersRouter.post("/signup/teacher", fieldValidation, signupValidation,
-  signupTeacher)
-
 // Retrieve teacher login page
 usersRouter.get("/login/teacher", (request, response) => {
   return response.status(200).json({ Message: "This is the teacher login page." }
