@@ -12,6 +12,9 @@ const MoveSchema = mongoose.Schema({
     },
     moveAlternativeName: {
       type: String,
+    },
+    moveImage: {
+      type: String,
     }
 })
 
