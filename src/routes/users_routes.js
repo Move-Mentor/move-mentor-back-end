@@ -2,7 +2,7 @@
 const express = require('express');
 const { signupStudent, loginStudent, getSpecificStudent, getAllStudents, updateStudent, deleteStudent } = require('../controllers/students_controller');
 const { fieldValidation, signupValidation } = require('../middlewares/users_validation_middleware');
-const { signupTeacher, loginTeacher, getSpecificTeacher, updateTeacher } = require('../controllers/teachers_controller');
+const { loginTeacher, getSpecificTeacher, updateTeacher } = require('../controllers/teachers_controller');
 const validateStudentRequest = require('../middlewares/students_auth_middleware');
 const validateTeacherRequest = require('../middlewares/teachers_auth_middleware')
 
@@ -41,10 +41,6 @@ usersRouter.put("/profile/student", validateStudentRequest, updateStudent)
 usersRouter.delete("/profile/student", validateStudentRequest, deleteStudent)
 
 // Teacher routes
-
-// Sign up new teacher (for testing purposes, internal use only)
-usersRouter.post("/signup/teacher", fieldValidation, signupValidation,
-  signupTeacher)
 
 // Retrieve teacher login page
 usersRouter.get("/login/teacher", (request, response) => {
