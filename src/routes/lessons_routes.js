@@ -10,7 +10,7 @@ const lessonsRouter = express.Router();
 lessonsRouter.get("/all", getAllLessons)
 
 // Retrieve a specific lesson and display a list of moves assigned to the lesson
-lessonsRouter.get("/:id", getSpecificLesson) 
+lessonsRouter.get("/:id", getSpecificLesson)
 
 // Add a move to, or delete a move from a lesson
 lessonsRouter.put("/:id", validateTeacherRequest, updateLesson) 

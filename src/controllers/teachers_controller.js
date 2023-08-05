@@ -41,18 +41,29 @@ const getSpecificTeacher = async (request, response) => {
   }
 }
 
-// Update a teacher profile
 const updateTeacher = async (request, response) => {
+  // Hash the password with bcrypt
+  if (request.body.password) {
+    const saltRounds = 10;
+    try {
+      const hashedPassword = await bcrypt.hash(request.body.password, saltRounds);
+      request.body.password = hashedPassword;
+    } catch (error) {
+      console.log("Error occurred while hashing password:\n", error);
+      return response.status(500).json({ Error: "An internal server error occurred." });
+    }
+  }
+
   // Fetch teacher with a valid JWT from the database and update and save the edited profile
   let updatedTeacher = await Teacher.findByIdAndUpdate(request.validTeacher.teacher_id, request.body, { new: true })
     .catch(error => {
-      console.log("Some error occurred while accessing data:\n" + error)
+      console.log("An error occurred while accessing data:\n", error);
     })
 
   if (updatedTeacher) {
-    return response.status(201).send(updatedTeacher)
+    return response.status(201).send(updatedTeacher);
   } else {
-    return response.status(404).json({ Error: "Teacher not found." })
+    return response.status(404).json({ Error: "Teacher not found." });
   }
 }
 
